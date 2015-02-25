@@ -1,20 +1,20 @@
 defmodule Addict.View do
+  @moduledoc """
+  Addict helper view functions to be used on templates
+  """
+
   import Plug.Conn
 
-  @moduledoc """
-    Addict helper view functions to be used on templates
-   """
-
   @doc """
-   checks if user is logged in, returns true if so,
-    and false if not
+  checks if user is logged in, returns true if so,
+  and false if not
   """
   def logged_in(conn) do
     !!get_session conn, :current_user
   end
 
   @doc """
-   gets user model properties
+  gets user model properties
   """
   def get_user(conn, prop) do
     user = get_session conn, :current_user
