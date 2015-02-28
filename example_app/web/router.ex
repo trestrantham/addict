@@ -3,7 +3,7 @@ defmodule ExampleApp.Router do
   use Addict.RoutesHelper
 
   pipeline :browser do
-    plug :accepts, ~w(html, json)
+    plug :accepts, ~w(html json)
     plug :fetch_session
     plug :fetch_flash
   end
