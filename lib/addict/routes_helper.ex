@@ -12,6 +12,11 @@ defmodule Addict.RoutesHelper do
       route_options = options_for_route(route, options[route])
 
       quote do
+        get unquote(route_options[:path]),
+          Addict.AddictController,
+          unquote(route),
+          as: unquote(route)
+
         post unquote(route_options[:path]),
           unquote(route_options[:controller]),
           unquote(route_options[:action]),
@@ -22,11 +27,13 @@ defmodule Addict.RoutesHelper do
 
   defp options_for_route(route, options) when is_list(options) do
     path       = route_path(route, options[:path])
-    controller = options[:controller] || Addict.Controller
+    controller = options[:controller] || Addict.AddictController
     action     = options[:action] || route
     as         = route
 
-    %{path: path, controller: controller, action: action, as: as}
+    post_action = "process_#{to_string(action)}" |> String.to_atom
+
+    %{path: path, controller: controller, action: post_action, as: as}
   end
   defp options_for_route(route, path) do
     options_for_route(route, [path: route_path(route, path)])
