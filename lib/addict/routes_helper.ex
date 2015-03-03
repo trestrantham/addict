@@ -15,12 +15,24 @@ defmodule Addict.RoutesHelper do
         get unquote(route_options[:path]),
           Addict.AddictController,
           unquote(route),
-          as: unquote(route)
+          as: unquote(route),
+          private: %{
+            addict: %{
+              layout: unquote(route_options[:layout]),
+              view: unquote(route_options[:view])
+            }
+          }
 
         post unquote(route_options[:path]),
           unquote(route_options[:controller]),
           unquote(route_options[:action]),
-          as: unquote(route_options[:as])
+          as: unquote(route_options[:as]),
+          private: %{
+            addict: %{
+              layout: unquote(route_options[:layout]),
+              view: unquote(route_options[:view])
+            }
+          }
       end
     end
   end
@@ -33,7 +45,7 @@ defmodule Addict.RoutesHelper do
 
     post_action = "process_#{to_string(action)}" |> String.to_atom
 
-    %{path: path, controller: controller, action: post_action, as: as}
+    %{path: path, controller: controller, action: post_action, as: as, layout: options[:layout]}
   end
   defp options_for_route(route, path) do
     options_for_route(route, [path: route_path(route, path)])
