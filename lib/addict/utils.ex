@@ -4,4 +4,10 @@ defmodule Addict.Utils do
     |> to_string
     |> Mix.Utils.camelize
   end
+
+  def app_module do
+    Mix.Project.config()[:app]
+    |> Atom.to_string
+    |> Mix.Utils.camelize
+  end
 end
