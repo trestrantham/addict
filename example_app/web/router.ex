@@ -20,6 +20,8 @@ defmodule ExampleApp.Router do
     get "/forbidden", ExampleApp.PageController, :forbidden
 
     addict :routes,
+      register: [layout: false, view: MyApp.MyView],
+      login: [layout: {MyApp.MyLayout, "some_template.html"}],
       logout: [path: "/logout", controller: ExampleApp.UserController, action: :signout],
       recover_password: "/password/recover",
       reset_password: "/password/reset"
