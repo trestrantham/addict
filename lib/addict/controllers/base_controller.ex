@@ -51,61 +51,61 @@ defmodule Addict.BaseController do
         json conn, message
       end
 
-      # @doc """
-      #   Entry point for logging out users.
+      @doc """
+      Entry point for logging out users.
 
-      #   Since it only deletes session data, it should always return a JSON response
-      #   in the format `{message: "logged out"}` with a `200` status code.
-      #  """
-      # def logout(conn, _) do
-      #   {conn, message} = SessionInteractor.logout(conn)
-      #   json conn, message
-      # end
+      Since it only deletes session data, it should always return a JSON response
+      in the format `{message: "logged out"}` with a `200` status code.
+      """
+      def process_logout(conn, _) do
+        {conn, message} = SessionInteractor.logout(conn)
+        json conn, message
+      end
 
-      # @doc """
-      #   Entry point for logging users in.
+      @doc """
+      Entry point for logging users in.
 
-      #   Params needs to be populated with `email` and `password`. It returns `200`
-      #   status code along with the JSON response `{message: "logged in", user: %User{}` or `400`
-      #   with `{message: "invalid email or password"}`
+      Params needs to be populated with `email` and `password`. It returns `200`
+      status code along with the JSON response `{message: "logged in", user: %User{}` or `400`
+      with `{message: "invalid email or password"}`
 
-      #  """
-      # def login(conn, params) do
-      #   email = params["email"]
-      #   password = params["password"]
+      """
+      def process_login(conn, params) do
+        email = params["email"]
+        password = params["password"]
 
-      #   {conn, message} = @manager.verify_password(email, password)
-      #   |> SessionInteractor.login(conn)
-      #   json conn, message
-      # end
+        {conn, message} = @manager.verify_password(email, password)
+        |> SessionInteractor.login(conn)
+        json conn, message
+      end
 
-      # @doc """
-      #  Entry point for asking for a new password.
+      @doc """
+      Entry point for asking for a new password.
 
-      #  Params need to be populated with `email`
-      # """
-      # def recover_password(conn, params) do
-      #   email = params["email"]
+      Params need to be populated with `email`
+      """
+      def process_recover_password(conn, params) do
+        email = params["email"]
 
-      #   {conn, message} = @manager.recover_password(email)
-      #   |> SessionInteractor.password_recover(conn)
-      #   json conn, message
-      # end
+        {conn, message} = @manager.recover_password(email)
+        |> SessionInteractor.password_recover(conn)
+        json conn, message
+      end
 
-      # @doc """
-      #  Entry point for setting a user's password given the reset token.
+      @doc """
+      Entry point for setting a user's password given the reset token.
 
-      #  Params needed to be populated with `token`, `password` and `password_confirm`
-      # """
-      # def reset_password(conn, params) do
-      #   token = params["token"]
-      #   password = params["password"]
-      #   password_confirm = params["password_confirm"]
+      Params needed to be populated with `token`, `password` and `password_confirm`
+      """
+      def process_reset_password(conn, params) do
+        token = params["token"]
+        password = params["password"]
+        password_confirm = params["password_confirm"]
 
-      #   {conn, message} = @manager.reset_password(token, password, password_confirm)
-      #   |> SessionInteractor.password_reset(conn)
-      #   json conn, message
-      # end
+        {conn, message} = @manager.reset_password(token, password, password_confirm)
+        |> SessionInteractor.password_reset(conn)
+        json conn, message
+      end
 
       defoverridable Module.definitions_in(__MODULE__)
     end
