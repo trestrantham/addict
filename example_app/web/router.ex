@@ -3,17 +3,17 @@ defmodule ExampleApp.Router do
   use Addict.RoutesHelper
 
   pipeline :browser do
-    plug :accepts, ~w(html json)
+    plug :accepts, ["html", "json"]
     plug :fetch_session
     plug :fetch_flash
   end
 
   pipeline :api do
-    plug :accepts, ~w(json)
+    plug :accepts, ["json"]
   end
 
   scope "/" do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
     get "/", ExampleApp.PageController, :index
     get "/show", ExampleApp.PageController, :show
