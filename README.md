@@ -106,7 +106,16 @@ recover_password_path  POST  /password/recover  Addict.Controller.recover_passwo
   reset_password_path  POST  /password/reset    Addict.Controller.reset_password/2
 ```
 
-And use `Addict.Plugs.Authenticated` plug to validate requests on your controllers:
+`addict :routes` also allows you to configure which view and/or template is
+used for a given route:
+
+```elixir
+addict :routes,
+  register: [layout: false, view: MyApp.MyView],
+  login: [layout: {MyApp.MyLayout, "some_template.html"}]
+```
+
+You can use `Addict.Plugs.Authenticated` plug to validate requests on your controllers:
 ```elixir
 defmodule MyAwesomeApp.PageController do
   use Phoenix.Controller
