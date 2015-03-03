@@ -7,20 +7,35 @@ defmodule Addict.BaseController do
 
   defmacro __using__(_) do
     quote do
-
       @manager Application.get_env(:addict, :manager) || Addict.ManagerInteractor
       alias Addict.SessionInteractor
+      alias Addict.Utils
 
       @doc """
       GET paths for register, login, password recovery, and password reset
       """
-      def register(conn, _params) do
+      def register(conn, _params), do: render_action(conn)
+      def login(conn, _params), do: render_action(conn)
+      def recover_password(conn, _params), do: render_action(conn)
+      def reset_password(conn, _params), do: render_action(conn)
+
+      defp render_action(conn) do
+        addict = conn.private.addict
+
+        layout = case addict.layout do
+          false ->
+            false
+          nil ->
+            {Module.concat([Utils.app_name(conn), LayoutView]), "application.html"}
+          _ ->
+            addict.layout
+        end
+        view = addict.view || Module.concat([Utils.app_name(conn), AddictView])
+
         conn
-        |> put_layout({ExampleApp.LayoutView, "application.html"})
+        |> put_layout(layout)
+        |> put_view(view)
       end
-      def login(conn, _params), do: conn
-      def recover_password(conn, _params), do: conn
-      def reset_password(conn, _params), do: conn
 
       @doc """
       Entry point for registering new users.
