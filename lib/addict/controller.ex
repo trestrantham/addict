@@ -1,9 +1,11 @@
-defmodule Addict.AddictController do
+defmodule Addict.Controller do
   @moduledoc """
-   Default controller used by Addict
-   """
+  Default controller used by Addict
+  """
   use Phoenix.Controller
+
   plug :action
   plug :render
+
   use Addict.BaseController
 end

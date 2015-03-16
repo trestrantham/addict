@@ -13,7 +13,7 @@ defmodule Addict.RoutesHelper do
 
       quote do
         get unquote(route_options[:path]),
-          Addict.AddictController,
+          Addict.Controller,
           unquote(route),
           as: unquote(route),
           private: %{
@@ -39,7 +39,7 @@ defmodule Addict.RoutesHelper do
 
   defp options_for_route(route, options) when is_list(options) do
     path       = route_path(route, options[:path])
-    controller = options[:controller] || Addict.AddictController
+    controller = options[:controller] || Addict.Controller
     action     = options[:action] || route
     as         = route
 

@@ -1,9 +1,9 @@
 defmodule Addict.BaseController do
   @moduledoc """
-    Addict BaseController is used as a base to be extended by controllers if needed.
-    BaseController has functions to receive User related requests directly from
-    the Phoenix router.  Adds `register/2`, `logout/2` and `login/2` as public functions.
-   """
+  Addict BaseController is used as a base to be extended by controllers if needed.
+  BaseController has functions to receive User related requests directly from
+  the Phoenix router.  Adds `register/2`, `logout/2` and `login/2` as public functions.
+  """
 
   defmacro __using__(_) do
     quote do
@@ -20,9 +20,18 @@ defmodule Addict.BaseController do
       def reset_password(conn, _params), do: render_action(conn)
 
       defp render_action(conn) do
+        layout = conn |> get_layout
+        view = conn |> get_view
+
+        conn
+        |> put_layout(layout)
+        |> put_view(view)
+      end
+
+      defp get_layout(conn) do
         addict = conn.private.addict
 
-        layout = case addict.layout do
+        case addict.layout do
           false ->
             false
           nil ->
@@ -30,11 +39,12 @@ defmodule Addict.BaseController do
           _ ->
             addict.layout
         end
-        view = addict.view || Module.concat([Utils.app_name(conn), AddictView])
+      end
 
-        conn
-        |> put_layout(layout)
-        |> put_view(view)
+      defp get_view(conn) do
+        addict = conn.private.addict
+
+        view = addict.view || Module.concat([Utils.app_name(conn), AddictView])
       end
 
       @doc """
@@ -47,7 +57,7 @@ defmodule Addict.BaseController do
       """
       def process_register(conn, params) do
         {conn, message} = @manager.create(params)
-        |> SessionInteractor.register(conn)
+                          |> SessionInteractor.register(conn)
         json conn, message
       end
 
@@ -75,7 +85,7 @@ defmodule Addict.BaseController do
         password = params["password"]
 
         {conn, message} = @manager.verify_password(email, password)
-        |> SessionInteractor.login(conn)
+                          |> SessionInteractor.login(conn)
         json conn, message
       end
 
@@ -88,7 +98,7 @@ defmodule Addict.BaseController do
         email = params["email"]
 
         {conn, message} = @manager.recover_password(email)
-        |> SessionInteractor.password_recover(conn)
+                          |> SessionInteractor.password_recover(conn)
         json conn, message
       end
 
@@ -103,7 +113,7 @@ defmodule Addict.BaseController do
         password_confirm = params["password_confirm"]
 
         {conn, message} = @manager.reset_password(token, password, password_confirm)
-        |> SessionInteractor.password_reset(conn)
+                          |> SessionInteractor.password_reset(conn)
         json conn, message
       end
 
