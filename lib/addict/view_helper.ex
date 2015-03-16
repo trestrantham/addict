@@ -10,7 +10,7 @@ defmodule Addict.ViewHelper do
       import Plug.Conn
 
       @doc """
-      checks if user is logged in, returns true if so,
+      Checks if user is logged in, returns true if so,
       and false if not
       """
       def logged_in(conn) do
@@ -18,7 +18,7 @@ defmodule Addict.ViewHelper do
       end
 
       @doc """
-      gets user model properties
+      Gets user model properties
       """
       def get_user(conn, prop) do
         user = get_session conn, :current_user
