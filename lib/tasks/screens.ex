@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Addict.Gen.Templates do
+defmodule Mix.Tasks.Addict.Gen.Screens do
   use Mix.Task
   import Mix.Generator
   alias Addict.Utils
@@ -6,7 +6,7 @@ defmodule Mix.Tasks.Addict.Gen.Templates do
   @shortdoc "Generate templates and view for Addict"
   @moduledoc """
   Generates an Addict view and templates
-      mix addict.gen.templates
+      mix addict.gen.screens
   """
   def run(opts) do
     bindings = [
